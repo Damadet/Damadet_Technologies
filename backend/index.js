@@ -17,10 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/api/user', authRouter);
-// app.use('/api/product', productRouter);
-// app.use('/api/category', prodcategoryRouter);
-// app.use('/api/brand', brandRouter);
-
 
 app.use(notFound);
 app.use(errorHandler);
