@@ -9,6 +9,7 @@ const {
   updateUser,
   getaUser,
   getallUsers,
+  deleteaUser,
 } = require('../controller/userCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
@@ -23,5 +24,7 @@ router.get('/getusers', authMiddleware, isAdmin, getallUsers);
 router.get('/:id',authMiddleware, isAdmin, getaUser);
 
 router.put('/update-user', authMiddleware, updateUser);
+
+router.delete('/deleteauser/:id', authMiddleware, isAdmin, deleteaUser);
 
 module.exports = router;
