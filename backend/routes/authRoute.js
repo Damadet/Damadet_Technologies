@@ -7,8 +7,9 @@ const {
   handleRefreshToken,
   logout,
   updateUser,
+  getaUser,
 } = require('../controller/userCtrl');
-const { authMiddleware } = require('../middlewares/authMiddleware');
+const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
 
 router.post('/register', createUser);
@@ -17,6 +18,7 @@ router.post('/admin-login', loginAdminCtrl);
 
 router.get('/refresh', handleRefreshToken);
 router.get('/logout', logout)
+router.get('/:id',authMiddleware, isAdmin, getaUser)
 
 router.put('/update-user', authMiddleware, updateUser)
 
