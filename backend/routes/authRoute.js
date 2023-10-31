@@ -8,6 +8,7 @@ const {
   logout,
   updateUser,
   getaUser,
+  getallUsers,
 } = require('../controller/userCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
@@ -17,9 +18,10 @@ router.post('/login', loginUserCtrl);
 router.post('/admin-login', loginAdminCtrl);
 
 router.get('/refresh', handleRefreshToken);
-router.get('/logout', logout)
-router.get('/:id',authMiddleware, isAdmin, getaUser)
+router.get('/logout', logout);
+router.get('/getusers', authMiddleware, isAdmin, getallUsers);
+router.get('/:id',authMiddleware, isAdmin, getaUser);
 
-router.put('/update-user', authMiddleware, updateUser)
+router.put('/update-user', authMiddleware, updateUser);
 
 module.exports = router;

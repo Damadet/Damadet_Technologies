@@ -166,6 +166,17 @@ const getaUser = asyncHandler(async (req, res) => {
   }
 });
 
+// get all users
+
+const getallUsers = asyncHandler(async (req, res) => {
+  try {
+    const getUsers = await User.find();
+    res.json(getUsers);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginUserCtrl,
@@ -173,5 +184,6 @@ module.exports = {
   handleRefreshToken,
   logout,
   updateUser,
-  getaUser
+  getaUser,
+  getallUsers
 };
