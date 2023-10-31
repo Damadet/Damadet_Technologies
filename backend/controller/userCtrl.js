@@ -126,10 +126,35 @@ const logout = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'logged Out successfully'}); // forbidden
 });
 
+// update a user
+
+const updateUser = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  validateMongoDbId(id);
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        firstname: req?.body.firstname,
+        lastname: req?.body.lastname,
+        email: req?.body.email,
+        mobile: req?.body.mobile,
+      },
+      {
+        new: true,
+      },
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginUserCtrl,
   loginAdminCtrl,
   handleRefreshToken,
-  logout
+  logout,
+  updateUser
 };
