@@ -14,6 +14,7 @@ const {
   unblockUser,
   updatePassword,
   forgotPasswordToken,
+  resetPassword,
 } = require('../controller/userCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
@@ -32,6 +33,7 @@ router.put('/update-user', authMiddleware, updateUser);
 router.put('/update-password', authMiddleware, updatePassword);
 router.put('/block/:id', authMiddleware, isAdmin, blockUser);
 router.put('/unblock/:id', authMiddleware, isAdmin, unblockUser);
+router.put('/reset-password/:token', resetPassword);
 
 router.delete('/deleteauser/:id', authMiddleware, isAdmin, deleteaUser);
 
