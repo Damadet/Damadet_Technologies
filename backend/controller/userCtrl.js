@@ -351,6 +351,34 @@ const userCart = asyncHandler(async (req, res) => {
   }
 });
 
+// get User cart
+
+const getUserCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    const cart = await Cart.findOne({orderby:_id}).populate("products.product")
+    res.json(cart)
+  } catch (error) {
+    throw new Error(error)
+  }
+});
+
+// empty cart
+
+const emptyCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+  const user = await User.findOne({_id});
+  const cart = await Cart.findOneAndRemove({ orderby: user._id });
+  res.json(cart)
+  } catch (error) {
+    throw new Error(error)
+  }
+});
+
+
 module.exports = {
   createUser,
   loginUserCtrl,
@@ -367,5 +395,7 @@ module.exports = {
   forgotPasswordToken,
   resetPassword,
   getWishlist,
-  userCart
+  userCart,
+  getUserCart,
+  emptyCart
 };
