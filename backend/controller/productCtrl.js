@@ -4,6 +4,9 @@ const User = require('../models/userModel')
 const slugify = require('slugify');
 const { validateMongoDbId } = require('../utils/validateMongoDbid');
 
+
+// Create a product
+
 const createProduct = asyncHandler(async (req, res) => {
   try {
     if (req.body.title) {
@@ -16,4 +19,31 @@ const createProduct = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createProduct }
+// Get a product
+
+const getaproduct = asyncHandler(async(req, res) => {
+  const { id } = req.params;
+  try{
+    const product = await Product.findById(id);
+    res.json(product);
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+// Get all products
+
+const getAllProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    throw new Error(error)
+  }
+});
+
+module.exports = { 
+  createProduct,
+  getaproduct,
+  getAllProducts
+}
