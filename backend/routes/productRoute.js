@@ -4,7 +4,8 @@ const {
   getAllProducts,
   deleteProduct,
   updateProduct,
-  addToWishlist
+  addToWishlist,
+  rating
 } = require('../controller/productCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
@@ -15,6 +16,7 @@ router.post('/create-product', authMiddleware, isAdmin, createProduct);
 router.get('/', authMiddleware, isAdmin, getAllProducts);
 router.get('/:id', authMiddleware, isAdmin, getaproduct);
 
+router.put('/rating', authMiddleware, rating);
 router.put('/wishlist', authMiddleware, addToWishlist);
 router.put('/:id', authMiddleware, isAdmin, updateProduct);
 
