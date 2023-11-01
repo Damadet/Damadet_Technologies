@@ -28,6 +28,7 @@ router.post('/login', loginUserCtrl);
 router.post('/admin-login', loginAdminCtrl);
 router.post('/forgotpasswordtoken', forgotPasswordToken);
 router.post('/cart', authMiddleware, userCart);
+router.post('/cart/applycoupon', authMiddleware, applyCoupon);
 
 router.get('/refresh', handleRefreshToken);
 router.get('/logout', logout);
