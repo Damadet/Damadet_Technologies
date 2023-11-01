@@ -59,9 +59,27 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
+// update product
+
+const updateProduct = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (req.body.title) {
+      req.body.slug = slugify(req.body.title);
+    }
+    const updatedProduct = await Product.findOneAndUpdate({ _id: id }, req.body, {
+      new: true,
+    });
+    res.json(updatedProduct);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = { 
   createProduct,
   getaproduct,
   getAllProducts,
-  deleteProduct
+  deleteProduct,
+  updateProduct
 }
