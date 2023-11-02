@@ -344,9 +344,14 @@ const userCart = asyncHandler(async (req, res) => {
     let products = [];
     const user = await User.findById(_id);
     // check if user has product in cart
-    const alreadyExistCart = await Cart.findOne({ orderby: user._id });
+    const alreadyExistCart = await Cart.findOne({ orderby: user._id }).exec();
+    console.log(alreadyExistCart); // Log the resul
     if (alreadyExistCart) {
-      alreadyExistCart.remove();
+      // Check if alreadyExistCart is not null or undefined
+      await alreadyExistCart.deleteOne(); // Remove the document
+    } else {
+      // Handle the case where the cart does not exist
+      console.log('doesnt exist')
     }
     for (let i = 0; i < cart.length; i++) {
       console.log("running the for loop")
