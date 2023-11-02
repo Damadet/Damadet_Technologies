@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const uniqid = require('uniqid')
 
 const { validateMongoDbId } = require('../utils/validateMongoDbid');
 const { generateRefreshToken } = require('../config/refreshToken');
@@ -9,6 +10,8 @@ const { generateToken } = require('../config/jwtToken');
 const { sendEmail } = require('./emailCtrl');
 const Cart = require('../models/cartModel')
 const Product = require('../models/productModel')
+const Coupon = require('../models/couponModel')
+const Order = require('../models/orderModel')
 
 // create new User
 
@@ -298,6 +301,26 @@ const resetPassword = asyncHandler(async (req, res) => {
   res.json(user);
 });
 
+
+// save user address
+
+const saveAddress = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  validateMongoDbId(_id);
+  try {
+    const updatedUserAddress = await User.findByIdAndUpdate(
+      _id,
+      {
+        address: req?.body?.address,
+      },
+      { new: true },
+    );
+    res.json(updatedUserAddress);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 // Get Wishlist
 
 const getWishlist = asyncHandler(async (req, res) => {
@@ -382,7 +405,8 @@ const emptyCart = asyncHandler(async (req, res) => {
 
 const applyCoupon = asyncHandler(async (req, res) => {
   const { coupon } = req.body;
-  const validCoupon = await coupon.findOne({ name: coupon });
+  const { _id } = req.user;
+  const validCoupon = await Coupon.findOne({ name: coupon });
   if (validCoupon == null ) {
     throw new Error("Invalid Coupon");
   }
@@ -441,6 +465,9 @@ const createOrder = asyncHandler(async (req, res) => {
   }
 });
 
+
+// get order
+
 const getOrders = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   validateMongoDbId(_id);
@@ -451,6 +478,9 @@ const getOrders = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+
+// update order status
 
 const updateOrderStatus = asyncHandler(async (req, res) => {
   const { status } = req.body;
@@ -495,5 +525,6 @@ module.exports = {
   applyCoupon,
   createOrder,
   getOrders,
-  updateOrderStatus
+  updateOrderStatus,
+  saveAddress
 };
