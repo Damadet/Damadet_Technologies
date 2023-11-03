@@ -27,6 +27,23 @@ const createUser = asyncHandler(async (req, res) => {
   }
 });
 
+// create new Admin
+
+const createAdmin = asyncHandler(async (req, res) => {
+  const { email, firstname, lastname, password, mobile } = req.body;
+  const findAdmin = await User.findOne({ email });
+  if (!findAdmin) {
+    const newadmin = {
+      email, firstname, lastname, password, mobile, role: "admin"
+    }
+    // create new user
+    const newAdmin = await User.create(newadmin);
+    res.json(newAdmin);
+  } else {
+    throw new Error('User Already Exists');
+  }
+});
+
 // login user
 
 const loginUserCtrl = asyncHandler(async (req, res) => {
@@ -82,7 +99,7 @@ const loginAdminCtrl = asyncHandler(async (req, res) => {
     res.json({
       _id: findUser?._id,
       firstname: findUser?.firstname,
-      lastname: findUser?.email,
+      lastname: findUser?.lastname,
       email: findUser?.email,
       mobile: findUser?.mobile,
       token: generateToken(findUser?._id),
@@ -349,9 +366,6 @@ const userCart = asyncHandler(async (req, res) => {
     if (alreadyExistCart) {
       // Check if alreadyExistCart is not null or undefined
       await alreadyExistCart.deleteOne(); // Remove the document
-    } else {
-      // Handle the case where the cart does not exist
-      console.log('doesnt exist')
     }
     for (let i = 0; i < cart.length; i++) {
       console.log("running the for loop")
@@ -510,6 +524,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
 
 module.exports = {
   createUser,
+  createAdmin,
   loginUserCtrl,
   loginAdminCtrl,
   handleRefreshToken,

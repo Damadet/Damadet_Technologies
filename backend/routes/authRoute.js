@@ -24,11 +24,13 @@ const {
   createOrder,
   getOrders,
   updateOrderStatus,
+  createAdmin,
 } = require('../controller/userCtrl');
 const { authMiddleware, isAdmin } = require('../middlewares/authMiddleware');
 
 
-router.post('/register', createUser);
+router.post('/register-user', createUser);
+router.post('/register-admin', createAdmin);
 router.post('/login', loginUserCtrl);
 router.post('/admin-login', loginAdminCtrl);
 router.post('/forgotpasswordtoken', forgotPasswordToken);
