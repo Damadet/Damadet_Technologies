@@ -9,7 +9,6 @@ const productRouter = require('./routes/productRoute');
 const categoryRouter = require('./routes/categoryRoute');
 const brandRouter = require('./routes/brandRoute');
 const couponRouter = require('./routes/couponRoute');
-const { errorHand } = require('./middlewares/errorHandle');
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -27,14 +26,13 @@ app.use('/api/brand', brandRouter);
 app.use('/api/coupon', couponRouter);
 
 
-// app.use((error, req, res, next) => {
-//   const status = error.StatusCode || 500;
-//   res.status(status).json({
-//     message: error.message,
-//     stack: error.stack
-//   })
-// }) 
-app.use(errorHand)
+app.use((error, req, res, next) => {
+  const status = error.StatusCode || 500;
+  res.status(status).json({
+    message: error.message,
+    stack: error.stack
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
