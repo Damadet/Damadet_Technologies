@@ -14,7 +14,7 @@ I'm a backend developer proficient in the use of Nodejs, MongoDb and Python.
 
 ## Tech Stack
 
-**Server:** Node, Express
+**Server:** Node.js, Express
 
 
 ## Run Locally
